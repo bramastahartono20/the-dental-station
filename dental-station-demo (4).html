@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dental Station — Jakarta</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #009E98;
+  --teal-dark: #006E6A;
+  --teal-deep: #004A47;
+  --teal-pale: #E6F7F6;
+  --black: #080808;
+  --white: #FAFAFA;
+  --gray: #6E7A7A;
+  --gray-light: #F0F4F4;
+  --line: rgba(0,158,152,0.15);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background:var(--white); color:var(--black); font-family:'Outfit',sans-serif; font-weight:300; overflow-x:hidden; }
+
+/* CURSOR */
+
+#cur { position:fixed; width:12px; height:12px; background:var(--teal); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .08s; left:-100px; top:-100px; }
+#cur-r { position:fixed; width:38px; height:38px; border:1.5px solid var(--teal); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .13s ease, top .13s ease; opacity:.5; left:-100px; top:-100px; }
+
+/* MARQUEE */
+.marquee-wrap { background:var(--teal); overflow:hidden; padding:11px 0; }
+.marquee-track { display:flex; animation:marquee 22s linear infinite; white-space:nowrap; width:max-content; }
+.marquee-item { display:inline-flex; align-items:center; gap:28px; padding:0 36px; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:white; font-weight:400; }
+.mdot { width:4px; height:4px; background:rgba(255,255,255,.4); border-radius:50%; display:inline-block; }
+@keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:0 60px; height:70px; display:flex; align-items:center; justify-content:space-between; background:rgba(250,250,250,.96); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+.nav-logo { font-family:'Playfair Display',serif; font-size:16px; font-weight:400; color:var(--black); }
+.nav-logo span { color:var(--teal); }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--gray); text-decoration:none; transition:color .3s; }
+.nav-links a:hover { color:var(--teal); }
+.nav-book { background:var(--black); color:white; padding:10px 26px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; transition:background .3s; }
+.nav-book:hover { background:var(--teal-dark); }
+
+/* HERO */
+.hero { min-height:100vh; padding-top:70px; display:grid; grid-template-columns:1fr 1fr; }
+.hero-left { padding:80px 60px; display:flex; flex-direction:column; justify-content:center; }
+.hero-eyebrow { display:inline-flex; align-items:center; gap:12px; font-size:10px; letter-spacing:.35em; text-transform:uppercase; color:var(--teal); margin-bottom:30px; }
+.hero-eyebrow::before { content:''; width:28px; height:1px; background:var(--teal); }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(46px,5.5vw,78px); font-weight:400; line-height:1.1; color:var(--black); margin-bottom:28px; }
+.hero-title em { font-style:italic; color:var(--teal); }
+.hero-desc { font-size:15px; line-height:1.9; color:var(--gray); max-width:440px; margin-bottom:44px; }
+.hero-actions { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.btn-solid { background:var(--teal); color:white; padding:15px 36px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; transition:background .3s; display:inline-block; }
+.btn-solid:hover { background:var(--teal-dark); }
+.btn-line { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--black); text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:gap .3s; }
+.btn-line::after { content:'→'; }
+.btn-line:hover { gap:14px; }
+.hero-stats { display:flex; gap:44px; margin-top:60px; padding-top:36px; border-top:1px solid var(--line); }
+.h-stat-n { font-family:'Playfair Display',serif; font-size:34px; font-weight:400; color:var(--teal); line-height:1; }
+.h-stat-l { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--gray); margin-top:6px; }
+.hero-right { background:var(--teal-deep); position:relative; overflow:hidden; display:flex; align-items:center; }
+.hero-right-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 30%, rgba(0,158,152,.3), transparent); }
+.hero-grid-bg { position:absolute; inset:0; background-image:linear-gradient(rgba(0,158,152,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,158,152,.07) 1px, transparent 1px); background-size:56px 56px; }
+.hero-bigtext { position:absolute; bottom:-20px; left:-8px; font-family:'Playfair Display',serif; font-size:clamp(90px,14vw,180px); font-weight:700; color:rgba(255,255,255,.03); line-height:.85; pointer-events:none; }
+.hero-cards { position:relative; z-index:2; padding:50px 44px; width:100%; }
+.hc { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); padding:26px 30px; margin-bottom:10px; backdrop-filter:blur(8px); transition:background .3s; }
+.hc:hover { background:rgba(255,255,255,.1); }
+.hc-label { font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:7px; }
+.hc-val { font-family:'Playfair Display',serif; font-size:19px; color:white; font-weight:400; }
+.hc-sub { font-size:11px; color:rgba(255,255,255,.45); margin-top:4px; }
+
+/* SECTIONS */
+.s-wrap { max-width:1260px; margin:0 auto; padding:0 60px; }
+.s-eyebrow { font-size:10px; letter-spacing:.35em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.s-eyebrow::before { content:''; width:22px; height:1px; background:var(--teal); }
+.s-title { font-family:'Playfair Display',serif; font-size:clamp(30px,4vw,50px); font-weight:400; line-height:1.15; }
+.s-title em { font-style:italic; color:var(--teal); }
+.s-body { font-size:14px; line-height:2; color:var(--gray); max-width:500px; }
+
+/* SERVICES */
+#services { padding:110px 0; }
+#services .s-wrap { display:grid; grid-template-columns:1fr 1.5fr; gap:100px; align-items:start; }
+.srv-intro { position:sticky; top:110px; }
+.srv-intro .s-title { margin-bottom:20px; }
+.srv-intro .s-body { margin-bottom:36px; }
+.srv-item { border-top:1px solid var(--line); padding:32px 0; display:grid; grid-template-columns:56px 1fr auto; gap:20px; align-items:start; position:relative; }
+.srv-item::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:var(--teal); transform:scaleX(0); transform-origin:left; transition:transform .4s; }
+.srv-item:hover::after { transform:scaleX(1); }
+.srv-num { font-family:'Playfair Display',serif; font-size:13px; color:var(--teal); padding-top:4px; }
+.srv-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:400; color:var(--black); margin-bottom:8px; }
+.srv-desc { font-size:13px; line-height:1.8; color:var(--gray); }
+.srv-arrow { font-size:18px; color:var(--teal); opacity:0; transform:translateX(-8px); transition:all .3s; margin-top:4px; }
+.srv-item:hover .srv-arrow { opacity:1; transform:translateX(0); }
+
+/* BRANCHES */
+#branches { background:var(--black); padding:110px 0; overflow:hidden; }
+#branches .s-eyebrow { color:var(--teal); }
+#branches .s-title { color:white; }
+#branches .s-title em { color:var(--teal); }
+.branch-header { display:grid; grid-template-columns:1fr 1fr; align-items:end; margin-bottom:50px; }
+.branch-header-sub { font-size:13px; line-height:2; color:rgba(255,255,255,.35); max-width:340px; }
+.branch-row { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; padding:0 60px; }
+.bc { background:#111; border:1px solid rgba(255,255,255,.06); padding:44px 36px; position:relative; overflow:hidden; transition:border-color .3s; }
+.bc:hover { border-color:var(--teal); }
+.bc-num { font-family:'Playfair Display',serif; font-size:72px; color:rgba(0,158,152,.1); font-weight:700; line-height:1; margin-bottom:30px; }
+.bc-tag { font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+.bc-name { font-family:'Playfair Display',serif; font-size:24px; font-weight:400; color:white; margin-bottom:8px; }
+.bc-addr { font-size:12px; color:rgba(255,255,255,.35); line-height:1.7; margin-bottom:24px; }
+.bc-cta { display:inline-flex; align-items:center; gap:8px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--teal); text-decoration:none; transition:gap .3s; }
+.bc-cta::after { content:'→'; }
+.bc-cta:hover { gap:14px; }
+
+/* ABOUT */
+#about { display:grid; grid-template-columns:1fr 1fr; }
+.about-left { background:var(--teal-pale); padding:100px 60px; display:flex; flex-direction:column; justify-content:center; }
+.about-left .s-title { margin-bottom:20px; }
+.about-left .s-body { margin-bottom:30px; }
+.cert-row { display:flex; flex-direction:column; gap:12px; margin-top:12px; }
+.cert-item { display:flex; align-items:center; gap:14px; padding:14px 18px; background:white; border-left:3px solid var(--teal); }
+.cert-text { font-size:13px; color:var(--black); }
+.about-right { background:var(--teal-deep); padding:100px 60px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+.about-right-decor { position:absolute; right:-60px; top:50%; transform:translateY(-50%); font-family:'Playfair Display',serif; font-size:220px; color:rgba(255,255,255,.03); font-weight:700; pointer-events:none; line-height:1; }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; position:relative; z-index:1; }
+.stat-box { padding:36px 30px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); transition:background .3s; }
+.stat-box:hover { background:rgba(255,255,255,.08); }
+.stat-n { font-family:'Playfair Display',serif; font-size:44px; font-weight:400; color:var(--teal); line-height:1; }
+.stat-l { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-top:10px; }
+
+/* TESTIMONIALS */
+#testimonials { padding:110px 0; background:var(--gray-light); }
+#testimonials .s-wrap { text-align:center; margin-bottom:60px; }
+.testi-slide { display:none; padding:0 60px; }
+.testi-slide.active { display:block; }
+.testi-quote { font-family:'Playfair Display',serif; font-size:clamp(19px,2.8vw,28px); font-weight:400; font-style:italic; line-height:1.75; color:var(--black); margin-bottom:36px; max-width:680px; margin-left:auto; margin-right:auto; }
+.testi-author { font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--teal); }
+.testi-role { font-size:11px; color:var(--gray); margin-top:4px; }
+.testi-dots { display:flex; justify-content:center; gap:10px; margin-top:44px; }
+.testi-dot { width:6px; height:6px; border-radius:50%; background:rgba(0,0,0,.15); border:none; transition:all .3s; }
+.testi-dot.active { background:var(--teal); width:22px; border-radius:4px; }
+
+/* BOOKING */
+#booking { display:grid; grid-template-columns:1.1fr 1fr; }
+.booking-left { background:var(--teal); padding:100px 64px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+.booking-left::before { content:''; position:absolute; top:-80px; right:-80px; width:360px; height:360px; border:1px solid rgba(255,255,255,.1); border-radius:50%; }
+.booking-left::after { content:''; position:absolute; top:-30px; right:-30px; width:220px; height:220px; border:1px solid rgba(255,255,255,.07); border-radius:50%; }
+.booking-left .s-eyebrow { color:rgba(255,255,255,.6); }
+.booking-left .s-eyebrow::before { background:rgba(255,255,255,.6); }
+.booking-left .s-title { color:white; margin-bottom:20px; }
+.booking-left .s-title em { color:rgba(255,255,255,.65); }
+.booking-left .s-body { color:rgba(255,255,255,.65); margin-bottom:44px; }
+.c-list { display:flex; flex-direction:column; gap:18px; position:relative; z-index:1; }
+.c-item { display:flex; align-items:flex-start; gap:16px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,.15); }
+.c-icon { font-size:17px; color:rgba(255,255,255,.65); min-width:22px; margin-top:2px; }
+.c-label { font-size:9px; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.45); display:block; margin-bottom:3px; }
+.c-val { font-size:13px; color:white; line-height:1.6; }
+.booking-right { background:var(--white); padding:100px 64px; display:flex; flex-direction:column; justify-content:center; }
+.booking-right h3 { font-family:'Playfair Display',serif; font-size:26px; font-weight:400; color:var(--black); margin-bottom:32px; }
+.f-group { margin-bottom:14px; }
+.f-label { font-size:9px; letter-spacing:.25em; text-transform:uppercase; color:var(--gray); display:block; margin-bottom:7px; }
+.f-ctrl { width:100%; background:var(--gray-light); border:1.5px solid transparent; padding:13px 16px; font-family:'Outfit',sans-serif; font-size:13px; color:var(--black); outline:none; transition:border-color .3s, background .3s; -webkit-appearance:none; }
+.f-ctrl::placeholder { color:#aaa; }
+.f-ctrl:focus { border-color:var(--teal); background:white; }
+.f-row2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.f-submit { width:100%; margin-top:8px; background:var(--black); border:none; padding:16px; color:white; font-family:'Outfit',sans-serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; transition:background .3s; }
+.f-submit:hover { background:var(--teal-dark); }
+
+/* FOOTER */
+footer { background:var(--black); padding:72px 60px 36px; }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:52px; padding-bottom:52px; border-bottom:1px solid rgba(255,255,255,.07); margin-bottom:36px; }
+.footer-logo { font-family:'Playfair Display',serif; font-size:19px; font-weight:400; color:white; margin-bottom:14px; }
+.footer-logo span { color:var(--teal); }
+.footer-tagline { font-size:12px; color:rgba(255,255,255,.28); line-height:1.8; max-width:230px; }
+.footer-col h4 { font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--teal); margin-bottom:18px; }
+.footer-col ul { list-style:none; }
+.footer-col ul li { margin-bottom:10px; }
+.footer-col ul li a { font-size:12px; color:rgba(255,255,255,.3); text-decoration:none; transition:color .3s; }
+.footer-col ul li a:hover { color:white; }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; }
+.footer-bottom p { font-size:11px; color:rgba(255,255,255,.2); }
+.footer-rating { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); padding:10px 18px; }
+.footer-rating span { font-size:12px; color:rgba(255,255,255,.4); }
+.footer-rating strong { font-size:13px; color:white; font-weight:400; }
+
+/* WA */
+.wa { position:fixed; bottom:30px; right:30px; background:#25D366; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:25px; text-decoration:none; z-index:99; box-shadow:0 8px 24px rgba(37,211,102,.4); transition:transform .3s; animation:wap 2.5s infinite; }
+.wa:hover { transform:scale(1.1); }
+@keyframes wap { 0%,100% { box-shadow:0 8px 24px rgba(37,211,102,.4); } 50% { box-shadow:0 8px 40px rgba(37,211,102,.65); } }
+
+/* REVEAL */
+.rev { opacity:1; transform:none; transition:opacity .65s ease, transform .65s ease; }.rev.pre-anim { opacity:0; transform:translateY(22px); }
+.rev.in { opacity:1; transform:none; }
+
+/* MOBILE */
+@media(max-width:900px){
+  nav { padding:0 24px; }
+  .nav-links { display:none; }
+  .hero { grid-template-columns:1fr; }
+  .hero-right { display:none; }
+  .hero-left { padding:40px 24px 60px; }
+  #services .s-wrap { grid-template-columns:1fr; gap:50px; }
+  .srv-intro { position:static; }
+  .branch-row { grid-template-columns:1fr; padding:0 24px; }
+  .branch-header { grid-template-columns:1fr; gap:16px; }
+  #about { grid-template-columns:1fr; }
+  .about-left, .about-right { padding:70px 24px; }
+  #booking { grid-template-columns:1fr; }
+  .booking-left, .booking-right { padding:70px 24px; }
+  footer { padding:56px 24px 28px; }
+  .footer-top { grid-template-columns:1fr 1fr; gap:30px; }
+  .footer-bottom { flex-direction:column; gap:14px; text-align:center; }
+  .f-row2 { grid-template-columns:1fr; }
+  .testi-slide { padding:0 24px; }
+  .s-wrap { padding:0 24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+<a href="https://wa.me/6281234567890" class="wa" target="_blank">💬</a>
+
+<div class="marquee-wrap" style="margin-top:70px;">
+  <div class="marquee-track">
+    <span class="marquee-item">Dental Implant <span class="mdot"></span></span>
+    <span class="marquee-item">Dental Esthetic <span class="mdot"></span></span>
+    <span class="marquee-item">Orthodontic <span class="mdot"></span></span>
+    <span class="marquee-item">Endodontics <span class="mdot"></span></span>
+    <span class="marquee-item">Plaza Indonesia <span class="mdot"></span></span>
+    <span class="marquee-item">Hublife Mall <span class="mdot"></span></span>
+    <span class="marquee-item">Green Sedayu Mall <span class="mdot"></span></span>
+    <span class="marquee-item">Dental Implant <span class="mdot"></span></span>
+    <span class="marquee-item">Dental Esthetic <span class="mdot"></span></span>
+    <span class="marquee-item">Orthodontic <span class="mdot"></span></span>
+    <span class="marquee-item">Endodontics <span class="mdot"></span></span>
+    <span class="marquee-item">Plaza Indonesia <span class="mdot"></span></span>
+    <span class="marquee-item">Hublife Mall <span class="mdot"></span></span>
+    <span class="marquee-item">Green Sedayu Mall <span class="mdot"></span></span>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-logo">The <span>Dental</span> Station</div>
+  <ul class="nav-links">
+    <li><a href="#services">Layanan</a></li>
+    <li><a href="#branches">Cabang</a></li>
+    <li><a href="#about">Tentang</a></li>
+    <li><a href="#booking">Booking</a></li>
+  </ul>
+  <a href="#booking" class="nav-book">Buat Janji</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">One Stop Dental Solution · Jakarta</div>
+    <h1 class="hero-title">Your Smile,<br><em>Perfectly</em><br>Crafted.</h1>
+    <p class="hero-desc">Klinik gigi spesialis di Jakarta dengan layanan implant, estetika, ortodonti, dan endodontik. Hadir di 3 lokasi premium untuk kemudahan Anda.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-solid">Konsultasi Gratis</a>
+      <a href="#services" class="btn-line">Lihat Layanan</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="h-stat-n">4.9★</div><div class="h-stat-l">Rating Google</div></div>
+      <div><div class="h-stat-n">784+</div><div class="h-stat-l">Ulasan Pasien</div></div>
+      <div><div class="h-stat-n">3</div><div class="h-stat-l">Lokasi Jakarta</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-bg"></div>
+    <div class="hero-grid-bg"></div>
+    <div class="hero-bigtext">DS</div>
+    <div class="hero-cards">
+      <div class="hc"><div class="hc-label">Spesialisasi Utama</div><div class="hc-val">Dental Implant</div><div class="hc-sub">Solusi permanen untuk gigi yang hilang</div></div>
+      <div class="hc"><div class="hc-label">Estetika Gigi</div><div class="hc-val">Veneer & Bleaching</div><div class="hc-sub">Senyum lebih cerah dan sempurna</div></div>
+      <div class="hc"><div class="hc-label">Buka Setiap Hari</div><div class="hc-val">Hingga Pukul 21.00</div><div class="hc-sub">Fleksibel sesuai jadwal Anda</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="s-wrap">
+    <div class="srv-intro">
+      <div class="s-eyebrow rev">Layanan Kami</div>
+      <h2 class="s-title rev">Solusi Gigi <em>Lengkap</em><br>di Satu Tempat</h2>
+      <p class="s-body rev" style="margin-top:18px;">Ditangani dokter spesialis berpengalaman menggunakan teknologi dental terkini di 3 cabang Jakarta.</p>
+      <a href="#booking" class="btn-solid rev" style="margin-top:32px;">Konsultasi Sekarang</a>
+    </div>
+    <div class="srv-list">
+      <div class="srv-item rev"><div class="srv-num">01</div><div><div class="srv-name">Dental Implant</div><p class="srv-desc">Penggantian gigi permanen dengan implan titanium. Hanya 4x kunjungan, hasil seumur hidup.</p></div><div class="srv-arrow">→</div></div>
+      <div class="srv-item rev"><div class="srv-num">02</div><div><div class="srv-name">Dental Esthetic</div><p class="srv-desc">Veneer, bleaching, dan composite bonding untuk senyum yang lebih cerah dan percaya diri.</p></div><div class="srv-arrow">→</div></div>
+      <div class="srv-item rev"><div class="srv-num">03</div><div><div class="srv-name">Orthodontic</div><p class="srv-desc">Kawat gigi dan clear aligner untuk merapikan susunan gigi secara bertahap dan nyaman.</p></div><div class="srv-arrow">→</div></div>
+      <div class="srv-item rev"><div class="srv-num">04</div><div><div class="srv-name">Endodontics</div><p class="srv-desc">Perawatan saluran akar oleh spesialis untuk menyelamatkan gigi yang terinfeksi.</p></div><div class="srv-arrow">→</div></div>
+      <div class="srv-item rev"><div class="srv-num">05</div><div><div class="srv-name">Gigi Bungsu</div><p class="srv-desc">Pencabutan gigi bungsu impaksi oleh spesialis bedah mulut, aman dan pemulihan cepat.</p></div><div class="srv-arrow">→</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="branches">
+  <div class="s-wrap">
+    <div class="branch-header">
+      <div>
+        <div class="s-eyebrow rev">Lokasi Kami</div>
+        <h2 class="s-title rev">3 Cabang <em>Strategis</em><br>di Jakarta</h2>
+      </div>
+      <p class="branch-header-sub rev">Hadir di pusat perbelanjaan premium Jakarta untuk kemudahan akses Anda.</p>
+    </div>
+  </div>
+  <div class="branch-row">
+    <div class="bc rev"><div class="bc-num">01</div><div class="bc-tag">Cabang Pertama</div><div class="bc-name">Plaza Indonesia</div><div class="bc-addr">Plaza Indonesia, Jakarta Pusat<br>Akses mudah dari pusat kota</div><a href="#booking" class="bc-cta">Buat Janji</a></div>
+    <div class="bc rev"><div class="bc-num">02</div><div class="bc-tag">Cabang Kedua</div><div class="bc-name">Hublife Mall</div><div class="bc-addr">Jl. Tanjung Duren Timur No.2<br>Jakarta Barat 11470</div><a href="#booking" class="bc-cta">Buat Janji</a></div>
+    <div class="bc rev"><div class="bc-num">03</div><div class="bc-tag">Cabang Ketiga</div><div class="bc-name">Green Sedayu Mall</div><div class="bc-addr">Green Sedayu Mall, Jakarta Barat<br>Kawasan Cengkareng</div><a href="#booking" class="bc-cta">Buat Janji</a></div>
+  </div>
+</section>
+
+<div id="about">
+  <div class="about-left">
+    <div class="s-eyebrow rev">Mengapa Kami</div>
+    <h2 class="s-title rev">Standar Klinik <em>Premium</em><br>untuk Semua</h2>
+    <p class="s-body rev" style="margin-top:18px;">The Dental Station hadir dengan visi sederhana: perawatan gigi spesialis berkualitas tinggi, terjangkau, dan mudah diakses.</p>
+    <div class="cert-row">
+      <div class="cert-item rev"><span>🎓</span><span class="cert-text">Dokter spesialis berlisensi Kemenkes RI</span></div>
+      <div class="cert-item rev"><span>🔬</span><span class="cert-text">Peralatan dental teknologi terkini</span></div>
+      <div class="cert-item rev"><span>🏆</span><span class="cert-text">Rating 4.9 bintang dari 784+ pasien Google</span></div>
+      <div class="cert-item rev"><span>📍</span><span class="cert-text">3 cabang di lokasi premium Jakarta</span></div>
+    </div>
+  </div>
+  <div class="about-right">
+    <div class="about-right-decor">DS</div>
+    <div class="stat-grid">
+      <div class="stat-box rev"><div class="stat-n">4.9★</div><div class="stat-l">Rating Google</div></div>
+      <div class="stat-box rev"><div class="stat-n">784+</div><div class="stat-l">Pasien Puas</div></div>
+      <div class="stat-box rev"><div class="stat-n">3</div><div class="stat-l">Cabang Jakarta</div></div>
+      <div class="stat-box rev"><div class="stat-n">5</div><div class="stat-l">Spesialisasi</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="testimonials">
+  <div class="s-wrap">
+    <div class="s-eyebrow rev" style="justify-content:center;">Testimoni</div>
+    <h2 class="s-title rev" style="margin-bottom:0;">Kata <em>Pasien Kami</em></h2>
+  </div>
+  <div style="margin-top:56px;">
+    <div class="testi-slide active">
+      <p class="testi-quote">"Implant gigi saya di The Dental Station hasilnya luar biasa. Dokternya sangat profesional, menjelaskan setiap langkah dengan sabar. Sekarang saya bisa makan dan senyum dengan percaya diri lagi."</p>
+      <div class="testi-author">Hendri W.</div>
+      <div class="testi-role">Pasien Dental Implant · Hublife Mall</div>
+    </div>
+    <div class="testi-slide">
+      <p class="testi-quote">"Veneer saya hasilnya natural banget, tidak keliatan palsu sama sekali. Tim dokternya sangat detail dan memastikan saya puas sebelum selesai. Highly recommended!"</p>
+      <div class="testi-author">Clarissa T.</div>
+      <div class="testi-role">Pasien Veneer · Plaza Indonesia</div>
+    </div>
+    <div class="testi-slide">
+      <p class="testi-quote">"Kawat gigi saya sudah 1 tahun di sini dan hasilnya sangat memuaskan. Tempatnya nyaman, dokternya ramah, dan prosesnya dijelaskan dengan jelas. Klinik gigi terbaik di Jakarta!"</p>
+      <div class="testi-author">Rizky A.</div>
+      <div class="testi-role">Pasien Orthodontic · Green Sedayu</div>
+    </div>
+    <div class="testi-dots">
+      <button class="testi-dot active" onclick="goSlide(0)"></button>
+      <button class="testi-dot" onclick="goSlide(1)"></button>
+      <button class="testi-dot" onclick="goSlide(2)"></button>
+    </div>
+  </div>
+</section>
+
+<div id="booking">
+  <div class="booking-left">
+    <div class="s-eyebrow rev">Hubungi Kami</div>
+    <h2 class="s-title rev">Konsultasi <em>Gratis</em><br>Hari Ini</h2>
+    <p class="s-body rev">Pilih cabang terdekat dan buat janji dengan dokter spesialis kami. Konsultasi awal gratis.</p>
+    <div class="c-list">
+      <div class="c-item rev"><span class="c-icon">💬</span><div><span class="c-label">Instagram</span><span class="c-val">@thedentalstation</span></div></div>
+      <div class="c-item rev"><span class="c-icon">📍</span><div><span class="c-label">Cabang Tersedia</span><span class="c-val">Plaza Indonesia · Hublife Mall<br>Green Sedayu Mall</span></div></div>
+      <div class="c-item rev"><span class="c-icon">🕐</span><div><span class="c-label">Jam Operasional</span><span class="c-val">Setiap Hari · s/d Pukul 21.00</span></div></div>
+    </div>
+  </div>
+  <div class="booking-right">
+    <h3 class="rev">Form Booking Janji</h3>
+    <div class="f-row2">
+      <div class="f-group rev"><label class="f-label">Nama Lengkap</label><input class="f-ctrl" type="text" placeholder="Nama Anda"></div>
+      <div class="f-group rev"><label class="f-label">Nomor WhatsApp</label><input class="f-ctrl" type="tel" placeholder="+62"></div>
+    </div>
+    <div class="f-group rev"><label class="f-label">Pilih Cabang</label><select class="f-ctrl"><option value="" disabled selected>Pilih lokasi</option><option>Plaza Indonesia</option><option>Hublife Mall</option><option>Green Sedayu Mall</option></select></div>
+    <div class="f-group rev"><label class="f-label">Layanan</label><select class="f-ctrl"><option value="" disabled selected>Pilih layanan</option><option>Dental Implant</option><option>Dental Esthetic (Veneer/Bleaching)</option><option>Orthodontic (Kawat Gigi)</option><option>Endodontics</option><option>Gigi Bungsu</option><option>Konsultasi Umum</option></select></div>
+    <div class="f-row2">
+      <div class="f-group rev"><label class="f-label">Tanggal</label><input class="f-ctrl" type="date"></div>
+      <div class="f-group rev"><label class="f-label">Waktu</label><input class="f-ctrl" type="time"></div>
+    </div>
+    <div class="f-group rev"><label class="f-label">Keluhan / Catatan</label><textarea class="f-ctrl" rows="3" placeholder="Ceritakan keluhan Anda..."></textarea></div>
+    <button class="f-submit rev">Konfirmasi Booking</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">The <span>Dental</span> Station</div>
+      <p class="footer-tagline">One stop solution for your dental problem. Spesialis gigi terpercaya di Jakarta.</p>
+    </div>
+    <div class="footer-col"><h4>Layanan</h4><ul><li><a href="#">Dental Implant</a></li><li><a href="#">Dental Esthetic</a></li><li><a href="#">Orthodontic</a></li><li><a href="#">Endodontics</a></li></ul></div>
+    <div class="footer-col"><h4>Cabang</h4><ul><li><a href="#">Plaza Indonesia</a></li><li><a href="#">Hublife Mall</a></li><li><a href="#">Green Sedayu Mall</a></li></ul></div>
+    <div class="footer-col"><h4>Info</h4><ul><li><a href="#">Tentang Kami</a></li><li><a href="#">Booking Janji</a></li><li><a href="#">Instagram</a></li><li><a href="#">Email Kami</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 The Dental Station · All rights reserved · Jakarta, Indonesia</p>
+    <div class="footer-rating"><span>Google Rating</span><strong>⭐ 4.9 / 5.0</strong><span>(784 ulasan)</span></div>
+  </div>
+</footer>
+
+<script>
+var cur = document.getElementById('cur');
+var curR = document.getElementById('cur-r');
+document.addEventListener('mousemove', function(e) {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+  setTimeout(function() {
+    curR.style.left = e.clientX + 'px';
+    curR.style.top = e.clientY + 'px';
+  }, 100);
+});
+
+var current = 0;
+function goSlide(n) {
+  document.querySelectorAll('.testi-slide').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.testi-dot').forEach(function(d) { d.classList.remove('active'); });
+  document.querySelectorAll('.testi-slide')[n].classList.add('active');
+  document.querySelectorAll('.testi-dot')[n].classList.add('active');
+  current = n;
+}
+setInterval(function() { goSlide((current + 1) % 3); }, 5000);
+
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry, i) {
+    if (entry.isIntersecting) {
+      setTimeout(function() { entry.target.classList.remove('pre-anim'); entry.target.classList.add('in'); }, i * 80);
+    }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.rev').forEach(function(el) { el.classList.add('pre-anim'); obs.observe(el); });
+// Fallback: show all elements after 1.5s in case IntersectionObserver fails
+setTimeout(function() {
+  document.querySelectorAll('.rev.pre-anim').forEach(function(el) {
+    el.classList.remove('pre-anim'); el.classList.add('in');
+  });
+}, 1500);
+</script>
+</body>
+</html>
